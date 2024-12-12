@@ -35,5 +35,11 @@ return {
 				vim.cmd 'diffget //3'
 			end, { desc = 'Merge conflict [G]et right.(h)' })
 		end
+	},
+	{
+		'tpope/vim-rhubarb',
+		config = function()
+			vim.g.rhubarb_github_host = 'github.com'
+		end,
 	}
 }
