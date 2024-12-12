@@ -28,10 +28,14 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"neovim/nvim-lspconfig",
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"j-hui/fidget.nvim",
+			-- "hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
 			require("mason").setup()
@@ -44,6 +48,9 @@ return {
 					require("lspconfig")[server_name].setup({})
 				end,
 			})
+
+			-- Allow notifications for LSP server
+			require("fidget").setup({})
 		end,
 	},
 }
