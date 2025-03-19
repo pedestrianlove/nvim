@@ -12,6 +12,22 @@ return {
 		-- See Commands section for default commands if you want to lazy load on them
 		config = function()
 			require("CopilotChat").setup({})
+
+			-- Enable CopilotChatModel selection using shortcut
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>sm",
+				":CopilotChatModel<CR>",
+				{ desc = "[S]earch Copilot Chat [M]odels", noremap = true }
+			)
+
+			-- Enable CopilotChatPrompts selection using shortcut
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>sp",
+				":CopilotChatPrompts<CR>",
+				{ desc = "[S]earch Copilot Chat [P]rompts", noremap = true }
+			)
 		end,
 	},
 }
