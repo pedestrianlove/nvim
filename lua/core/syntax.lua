@@ -35,9 +35,9 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
 			"neovim/nvim-lspconfig",
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"j-hui/fidget.nvim",
 
 			-- Setup autocompletion
@@ -140,8 +140,6 @@ return {
 				end,
 			})
 
-			require("mason").setup()
-			require("mason-lspconfig").setup()
 
 			-- LSP servers and clients are able to communicate to each other what features they support.
 			--  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -168,17 +166,21 @@ return {
 				},
 			}
 
-			require("mason-lspconfig").setup_handlers({
-				-- Setup the configuration handler
-				function(server_name)
-					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for ts_ls)
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
-			})
+			require("mason").setup()
+			require('mason-lspconfig').setup {
+				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+				automatic_installation = false,
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for ts_ls)
+						server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+						require('lspconfig')[server_name].setup(server)
+					end,
+				},
+			}
 
 			-- Display extra logs for LSP server
 			require("fidget").setup({})
