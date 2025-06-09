@@ -1,33 +1,37 @@
 return {
 	{
-		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		lazy = false,
-		cmd = { "NvimTreeToggle" },
+		'nvim-neo-tree/neo-tree.nvim',
+		branch = 'v3.x',
 		dependencies = {
-			"nvim-tree/nvim-web-devicons",
+			'nvim-lua/plenary.nvim',
+			'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+			'MunifTanjim/nui.nvim',
 		},
-		config = function()
-			vim.g.loaded_netrw = 1
-			vim.g.loaded_netrwPlugin = 1
-			vim.opt.termguicolors = true
-
-			require("nvim-tree").setup({
-				actions = {
-					open_file = {
-						quit_on_open = true,
+		lazy = false,
+		keys = {
+			{ '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+		},
+		opts = {
+			filesystem = {
+				hijack_netrw_behavior = "open_current",
+				window = {
+					mappings = {
+						['\\'] = 'close_window',
 					},
 				},
-			})
-
-			local api = require("nvim-tree.api")
-			vim.keymap.set("n", "<Esc>1", function()
-				api.tree.toggle({ find_file = true, focus = true })
-			end, { desc = "Toggle NvimTree sidebar.", noremap = true })
-			vim.keymap.set("i", "<Esc>1", function()
-				api.tree.toggle({ find_file = true, focus = true })
-			end, { desc = "Toggle NvimTree sidebar.", noremap = true })
-		end,
+			},
+			event_handlers = {
+				{
+					event = "file_open_requested",
+					handler = function()
+						-- auto close
+						-- vim.cmd("Neotree close")
+						-- OR
+						require("neo-tree.command").execute({ action = "close" })
+					end
+				},
+			}
+		},
 	},
 	{
 		"stevearc/oil.nvim",
