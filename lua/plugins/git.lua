@@ -37,12 +37,6 @@ return {
 		end,
 	},
 	{
-		"tpope/vim-rhubarb",
-		config = function()
-			vim.g.rhubarb_github_host = "github.com"
-		end,
-	},
-	{
 		"ThePrimeagen/git-worktree.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
